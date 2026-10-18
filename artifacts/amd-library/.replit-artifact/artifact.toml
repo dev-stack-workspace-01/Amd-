@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "عَمْد | المكتبة الشرعية"
+description = "مكتبة عربية رقمية لقراءة وفهرسة وتنزيل الكتب الشرعية، مع حسابات قراء ولوحة إدارة لإضافة الكتب وتنظيم فهارسها."
+version = "1.0.0"
+id = "artifacts/amd-library"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22113
+
+[services.development]
+run = "pnpm --filter @workspace/amd-library run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/amd-library", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/amd-library/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22113"
+BASE_PATH = "/"
